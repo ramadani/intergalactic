@@ -1,6 +1,8 @@
 package roman
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -20,8 +22,18 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 		numKey := numArr[i]
 		val := r.symbols[numKey]
 
+		// Check current symbol is equal to prev symbol and check it can be repeat or not
+		if i > 0 && numKey == numArr[i-1] && !r.canBeRepeat(numKey) {
+			return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+		}
+
 		if i+1 < n {
 			nextNumKey := numArr[i+1]
+
+			if numKey == nextNumKey && !r.canBeRepeat(numKey) {
+				return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+			}
+
 			nextVal := r.symbols[nextNumKey]
 			if val < nextVal {
 				val = (nextVal - val)
@@ -34,6 +46,27 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 	}
 
 	return num, nil
+}
+
+// Check if numeral can be repeat or not
+func (r *Roman) canBeRepeat(symb string) bool {
+	strVal := strconv.Itoa(r.symbols[symb])
+	vals := []rune(strVal)
+
+	// reverse number
+	for i := 0; i < len(vals)/2; i++ {
+		ii := len(vals) - i - 1
+		vals[i], vals[ii] = vals[ii], vals[i]
+	}
+
+	num, _ := strconv.Atoi(string(vals))
+
+	return num == 1
+}
+
+// Check if numeral can be subtracted with next numeral or not
+func (r *Roman) canBeSubtracted(symb, nextSymb string) bool {
+	return r.symbols[symb] <= r.symbols[nextSymb]
 }
 
 // NewRoman to make instance of roman

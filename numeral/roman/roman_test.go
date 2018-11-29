@@ -59,11 +59,13 @@ func TestSmallValueSymbolSubtracted(t *testing.T) {
 	}
 }
 
-func TestCanNotBeRepeatedForParticularSymbols(t *testing.T) {
+func TestCanBeRepeatedUntilThreeTimesForParticularSymbols(t *testing.T) {
 	tests := []romanTests{
-		romanTests{"VVI", 0, errors.New("Cannot be repeat for this numerals: V")},
-		romanTests{"LLX", 0, errors.New("Cannot be repeat for this numerals: L")},
-		romanTests{"CDD", 0, errors.New("Cannot be repeat for this numerals: D")},
+		romanTests{"III", 3, nil},
+		romanTests{"XXXIX", 39, nil},
+		romanTests{"CCCC", 0, errors.New("Cannot be repeat more then 3 times for this numerals: C")},
+		romanTests{"CXXXX", 0, errors.New("Cannot be repeat more then 3 times for this numerals: X")},
+		romanTests{"MMMM", 0, errors.New("Cannot be repeat more then 3 times for this numerals: M")},
 	}
 
 	roman := NewRoman()
@@ -71,10 +73,35 @@ func TestCanNotBeRepeatedForParticularSymbols(t *testing.T) {
 	for _, tt := range tests {
 		_, err := roman.ToNumber(tt.in)
 
-		expected := tt.err.Error()
-		actual := err.Error()
-		if actual != expected {
-			t.Errorf("TestCanBeRepeatedForParticularSymbols failed, expected: '%s', got: '%s'", expected, actual)
+		if err != nil {
+			expected := tt.err.Error()
+			actual := err.Error()
+			if actual != expected {
+				t.Errorf("TestCanBeRepeatedUntilThreeTimesForParticularSymbols failed, expected: '%s', got: '%s'", expected, actual)
+			}
+		}
+	}
+}
+
+func TestCanNotBeRepeatedForParticularSymbols(t *testing.T) {
+	tests := []romanTests{
+		romanTests{"VVI", 0, errors.New("Cannot be repeat for this numerals: V")},
+		romanTests{"LLX", 0, errors.New("Cannot be repeat for this numerals: L")},
+		romanTests{"CDD", 0, errors.New("Cannot be repeat for this numerals: D")},
+		romanTests{"CLLVV", 0, errors.New("Cannot be repeat for this numerals: L")},
+	}
+
+	roman := NewRoman()
+
+	for _, tt := range tests {
+		_, err := roman.ToNumber(tt.in)
+
+		if err != nil {
+			expected := tt.err.Error()
+			actual := err.Error()
+			if actual != expected {
+				t.Errorf("TestCanBeRepeatedForParticularSymbols failed, expected: '%s', got: '%s'", expected, actual)
+			}
 		}
 	}
 }

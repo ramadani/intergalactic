@@ -16,6 +16,7 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 	numArr := strings.Split(numeral, "")
 	n := len(numArr)
 	i := 0
+	repeat := 1
 	num := 0
 
 	for i < n {
@@ -30,11 +31,25 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 		if i+1 < n {
 			nextNumKey := numArr[i+1]
 
-			if numKey == nextNumKey && !r.canBeRepeat(numKey) {
-				return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+			if numKey == nextNumKey {
+				// Check current symbol is can be repeat or not
+				if !r.canBeRepeat(numKey) {
+					return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+				}
+
+				// Increment repeat
+				repeat++
+
+				// Check if repeat is more than 3 times
+				if repeat > 3 {
+					return 0, fmt.Errorf("Cannot be repeat more then 3 times for this numerals: %s", numKey)
+				}
+			} else {
+				repeat = 1
 			}
 
 			nextVal := r.symbols[nextNumKey]
+
 			if val < nextVal {
 				val = (nextVal - val)
 				i++

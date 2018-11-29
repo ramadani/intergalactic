@@ -14,19 +14,41 @@ func TestToNumber(t *testing.T) {
 		romanTests{"XXXIX", 39},
 		romanTests{"MVI", 1006},
 		romanTests{"MMVI", 2006},
-		romanTests{"MCMXLIV", 1944},
-		romanTests{"MCMXXXIV", 1934},
-		romanTests{"MCMIII", 1903},
 	}
 
 	roman := NewRoman()
 
 	for _, tt := range tests {
-		num, _ := roman.ToNumber(tt.in)
+		num, err := roman.ToNumber(tt.in)
+		if err != nil {
+			t.Error(err)
+		}
 
 		expected := tt.out
 		actual := num
+		if actual != expected {
+			t.Errorf("TestToNumber failed, expected: '%d', got: '%d'", expected, actual)
+		}
+	}
+}
 
+func TestSmallValueSymbolSubtracted(t *testing.T) {
+	tests := []romanTests{
+		romanTests{"XLV", 45},
+		romanTests{"LXXXIX", 89},
+		romanTests{"MCMXLIV", 1944},
+	}
+
+	roman := NewRoman()
+
+	for _, tt := range tests {
+		num, err := roman.ToNumber(tt.in)
+		if err != nil {
+			t.Error(err)
+		}
+
+		expected := tt.out
+		actual := num
 		if actual != expected {
 			t.Errorf("TestToNumber failed, expected: '%d', got: '%d'", expected, actual)
 		}

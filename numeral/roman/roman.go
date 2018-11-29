@@ -17,11 +17,12 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 	num := 0
 
 	for i < n {
-		val := r.symbols[numArr[i]]
+		numKey := numArr[i]
+		val := r.symbols[numKey]
 
 		if i+1 < n {
-			nextVal := r.symbols[numArr[i+1]]
-
+			nextNumKey := numArr[i+1]
+			nextVal := r.symbols[nextNumKey]
 			if val < nextVal {
 				val = (nextVal - val)
 				i++

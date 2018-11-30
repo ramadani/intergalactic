@@ -25,16 +25,16 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 
 		// Check current symbol is equal to prev symbol and check it can be repeat or not
 		if i > 0 && numKey == numArr[i-1] && !r.canBeRepeat(numKey) {
-			return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+			return 0, fmt.Errorf("Can not be repeat for this numerals: %s", numKey)
 		}
 
 		if i+1 < n {
 			nextNumKey := numArr[i+1]
 
 			if numKey == nextNumKey {
-				// Check current symbol is can be repeat or not
+				// Check the current symbol can be repeated or not
 				if !r.canBeRepeat(numKey) {
-					return 0, fmt.Errorf("Cannot be repeat for this numerals: %s", numKey)
+					return 0, fmt.Errorf("Can not be repeat for this numerals: %s", numKey)
 				}
 
 				// Increment repeat
@@ -42,15 +42,21 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 
 				// Check if repeat is more than 3 times
 				if repeat > 3 {
-					return 0, fmt.Errorf("Cannot be repeat more then 3 times for this numerals: %s", numKey)
+					return 0, fmt.Errorf("Can not be repeat more then 3 times for this numerals: %s", numKey)
 				}
 			} else {
+				// Reset the repeat counter
 				repeat = 1
 			}
 
 			nextVal := r.symbols[nextNumKey]
 
 			if val < nextVal {
+				// Check symbol is can be subtracted with the next symbol or not
+				if !r.canBeSubtracted(numKey, nextNumKey) {
+					return 0, fmt.Errorf("%s can not be subtracted with %s", numKey, nextNumKey)
+				}
+
 				val = (nextVal - val)
 				i++
 			}
@@ -63,7 +69,7 @@ func (r *Roman) ToNumber(numeral string) (int, error) {
 	return num, nil
 }
 
-// Check if numeral can be repeat or not
+// Check the symbol can be repeated or not
 func (r *Roman) canBeRepeat(symb string) bool {
 	strVal := strconv.Itoa(r.symbols[symb])
 	vals := []rune(strVal)
@@ -79,7 +85,7 @@ func (r *Roman) canBeRepeat(symb string) bool {
 	return num == 1
 }
 
-// Check if numeral can be subtracted with next numeral or not
+// Check symbol is can be subtracted with the next symbol or not
 func (r *Roman) canBeSubtracted(symb, nextSymb string) bool {
 	val := r.symbols[symb]
 	nextVal := r.symbols[nextSymb]
@@ -87,7 +93,7 @@ func (r *Roman) canBeSubtracted(symb, nextSymb string) bool {
 	return val*5 == nextVal || val*10 == nextVal
 }
 
-// NewRoman to make instance of roman
+// NewRoman to make instance of roman numerals
 func NewRoman() *Roman {
 	symbols := make(map[string]int)
 	symbols["I"] = 1

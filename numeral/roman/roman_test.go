@@ -55,9 +55,9 @@ func TestCanBeRepeatedUntilThreeTimesForParticularSymbols(t *testing.T) {
 	tests := []romanTests{
 		romanTests{"III", 3, nil},
 		romanTests{"XXXIX", 39, nil},
-		romanTests{"CCCC", 0, errors.New("Cannot be repeat more then 3 times for this numerals: C")},
-		romanTests{"CXXXX", 0, errors.New("Cannot be repeat more then 3 times for this numerals: X")},
-		romanTests{"MMMM", 0, errors.New("Cannot be repeat more then 3 times for this numerals: M")},
+		romanTests{"CCCC", 0, errors.New("Can not be repeat more then 3 times for this numerals: C")},
+		romanTests{"CXXXX", 0, errors.New("Can not be repeat more then 3 times for this numerals: X")},
+		romanTests{"MMMM", 0, errors.New("Can not be repeat more then 3 times for this numerals: M")},
 	}
 
 	roman := NewRoman()
@@ -75,10 +75,10 @@ func TestCanBeRepeatedUntilThreeTimesForParticularSymbols(t *testing.T) {
 
 func TestCanNotBeRepeatedForParticularSymbols(t *testing.T) {
 	tests := []romanTests{
-		romanTests{"VVI", 0, errors.New("Cannot be repeat for this numerals: V")},
-		romanTests{"LLX", 0, errors.New("Cannot be repeat for this numerals: L")},
-		romanTests{"CDD", 0, errors.New("Cannot be repeat for this numerals: D")},
-		romanTests{"CLLVV", 0, errors.New("Cannot be repeat for this numerals: L")},
+		romanTests{"VVI", 0, errors.New("Can not be repeat for this numerals: V")},
+		romanTests{"LLX", 0, errors.New("Can not be repeat for this numerals: L")},
+		romanTests{"CDD", 0, errors.New("Can not be repeat for this numerals: D")},
+		romanTests{"CLLVV", 0, errors.New("Can not be repeat for this numerals: L")},
 	}
 
 	roman := NewRoman()
@@ -102,6 +102,9 @@ func TestCanBeSubtractedForParticularSymbols(t *testing.T) {
 		romanTests{"XCIV", 94, nil},
 		romanTests{"CDX", 410, nil},
 		romanTests{"CMXL", 940, nil},
+		romanTests{"IL", 0, errors.New("I can not be subtracted with L")},
+		romanTests{"XXD", 0, errors.New("X can not be subtracted with D")},
+		romanTests{"XMLX", 0, errors.New("X can not be subtracted with M")},
 	}
 
 	roman := NewRoman()

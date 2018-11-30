@@ -25,12 +25,8 @@ func TestToNumber(t *testing.T) {
 
 		if err != tt.err {
 			t.Error(err)
-		} else {
-			expected := tt.out
-			actual := num
-			if actual != expected {
-				t.Errorf("TestToNumber failed, expected: '%d', got: '%d'", expected, actual)
-			}
+		} else if num != tt.out {
+			t.Errorf("TestToNumber failed, expected: '%d', got: '%d'", tt.out, num)
 		}
 	}
 }
@@ -49,12 +45,8 @@ func TestSmallValueSymbolSubtracted(t *testing.T) {
 
 		if err != tt.err {
 			t.Error(err)
-		} else {
-			expected := tt.out
-			actual := num
-			if actual != expected {
-				t.Errorf("TestSmallValueSymbolSubtracted failed, expected: '%d', got: '%d'", expected, actual)
-			}
+		} else if num != tt.out {
+			t.Errorf("TestSmallValueSymbolSubtracted failed, expected: '%d', got: '%d'", tt.out, num)
 		}
 	}
 }
@@ -71,14 +63,12 @@ func TestCanBeRepeatedUntilThreeTimesForParticularSymbols(t *testing.T) {
 	roman := NewRoman()
 
 	for _, tt := range tests {
-		_, err := roman.ToNumber(tt.in)
+		num, err := roman.ToNumber(tt.in)
 
-		if err != nil {
-			expected := tt.err.Error()
-			actual := err.Error()
-			if actual != expected {
-				t.Errorf("TestCanBeRepeatedUntilThreeTimesForParticularSymbols failed, expected: '%s', got: '%s'", expected, actual)
-			}
+		if err != nil && err.Error() != tt.err.Error() {
+			t.Errorf("TestCanBeSubtracted failed, expected: '%s', got: '%s'", tt.err.Error(), err.Error())
+		} else if num != tt.out {
+			t.Errorf("TestCanBeSubtracted failed, expected: '%d', got: '%d'", tt.out, num)
 		}
 	}
 }
@@ -94,14 +84,35 @@ func TestCanNotBeRepeatedForParticularSymbols(t *testing.T) {
 	roman := NewRoman()
 
 	for _, tt := range tests {
-		_, err := roman.ToNumber(tt.in)
+		num, err := roman.ToNumber(tt.in)
 
-		if err != nil {
-			expected := tt.err.Error()
-			actual := err.Error()
-			if actual != expected {
-				t.Errorf("TestCanBeRepeatedForParticularSymbols failed, expected: '%s', got: '%s'", expected, actual)
-			}
+		if err != nil && err.Error() != tt.err.Error() {
+			t.Errorf("TestCanBeSubtracted failed, expected: '%s', got: '%s'", tt.err.Error(), err.Error())
+		} else if num != tt.out {
+			t.Errorf("TestCanBeSubtracted failed, expected: '%d', got: '%d'", tt.out, num)
+		}
+	}
+}
+
+func TestCanBeSubtractedForParticularSymbols(t *testing.T) {
+	tests := []romanTests{
+		romanTests{"IV", 4, nil},
+		romanTests{"IX", 9, nil},
+		romanTests{"XLV", 45, nil},
+		romanTests{"XCIV", 94, nil},
+		romanTests{"CDX", 410, nil},
+		romanTests{"CMXL", 940, nil},
+	}
+
+	roman := NewRoman()
+
+	for _, tt := range tests {
+		num, err := roman.ToNumber(tt.in)
+
+		if err != nil && err.Error() != tt.err.Error() {
+			t.Errorf("TestCanBeSubtractedForParticularSymbols failed, expected: '%s', got: '%s'", tt.err.Error(), err.Error())
+		} else if num != tt.out {
+			t.Errorf("TestCanBeSubtractedForParticularSymbols failed, expected: '%d', got: '%d'", tt.out, num)
 		}
 	}
 }

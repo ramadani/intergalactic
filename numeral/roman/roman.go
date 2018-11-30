@@ -81,7 +81,10 @@ func (r *Roman) canBeRepeat(symb string) bool {
 
 // Check if numeral can be subtracted with next numeral or not
 func (r *Roman) canBeSubtracted(symb, nextSymb string) bool {
-	return r.symbols[symb] <= r.symbols[nextSymb]
+	val := r.symbols[symb]
+	nextVal := r.symbols[nextSymb]
+
+	return val*5 == nextVal || val*10 == nextVal
 }
 
 // NewRoman to make instance of roman

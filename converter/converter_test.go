@@ -7,7 +7,34 @@ import (
 	"github.com/ramadani/intergalactic/numeral/roman"
 )
 
-func TestAddSomeUnitsAndGetNum(t *testing.T) {
+func TestAddSomeUnitsAndGetErrorWhenAliasUnitIsExist(t *testing.T) {
+	type aliasUnitTest struct {
+		alias string
+		symb  string
+		err   error
+	}
+
+	tests := []aliasUnitTest{
+		aliasUnitTest{"glob", "I", nil},
+		aliasUnitTest{"prok", "V", nil},
+		aliasUnitTest{"pish", "X", nil},
+		aliasUnitTest{"tegj", "X", nil},
+		aliasUnitTest{"glob", "I", errors.New("glob unit is exists")},
+		aliasUnitTest{"pish", "X", errors.New("pish unit is exists")},
+	}
+
+	converter := NewConverter(roman.NewRoman())
+
+	for _, tt := range tests {
+		err := converter.AddUnit(tt.alias, tt.symb)
+
+		if err != nil && err.Error() != tt.err.Error() {
+			t.Errorf("TestAddSomeUnitsAndGetErrorWhenAliasUnitIsExist failed, expected: '%s', got: '%s'", tt.err.Error(), err.Error())
+		}
+	}
+}
+
+func TestAddSomeUnitsAndGetNumBasedOnNumeralEngine(t *testing.T) {
 	converter := NewConverter(roman.NewRoman())
 	converter.AddUnit("glob", "I")
 	converter.AddUnit("prok", "V")
@@ -29,12 +56,12 @@ func TestAddSomeUnitsAndGetNum(t *testing.T) {
 		res, _ := converter.GetNum(tt.in)
 
 		if res != tt.out {
-			t.Errorf("TestAddSomeUnitsAndGetNum failed, expected: '%d', got: '%d'", tt.out, res)
+			t.Errorf("TestAddSomeUnitsAndGetNumBasedOnNumeralEngine failed, expected: '%d', got: '%d'", tt.out, res)
 		}
 	}
 }
 
-func TestAddSomeUnitsAndReturnNotFound(t *testing.T) {
+func TestAddSomeUnitsAndGetErrorWhenAliasUnitIsNotExists(t *testing.T) {
 	converter := NewConverter(roman.NewRoman())
 	converter.AddUnit("glob", "I")
 	converter.AddUnit("prok", "V")
@@ -56,7 +83,7 @@ func TestAddSomeUnitsAndReturnNotFound(t *testing.T) {
 		_, err := converter.GetNum(tt.in)
 
 		if err.Error() != tt.err.Error() {
-			t.Errorf("TestAddSomeUnitsAndReturnNotFound failed, expected: '%s', got: '%s'",
+			t.Errorf("TestAddSomeUnitsAndGetErrorWhenAliasUnitIsNotExists failed, expected: '%s', got: '%s'",
 				tt.err.Error(), err.Error())
 		}
 	}

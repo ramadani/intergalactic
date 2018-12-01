@@ -103,7 +103,7 @@ func TestAddSomeTypeAndCalculateItWithNumber(t *testing.T) {
 
 	for _, tt := range tests {
 		cTp, _ := credit.GetType(tt.name)
-		res := float64(tt.num) * cTp.amount
+		res := float64(tt.num) * cTp.Amount
 
 		if res != tt.res {
 			t.Errorf("TestAddSomeTypeAndCalculateItWithNumber failed, expected: '%f', got: '%f'", tt.res, res)

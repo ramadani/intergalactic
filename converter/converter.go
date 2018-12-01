@@ -15,15 +15,15 @@ type Converter struct {
 
 // Unit for foreign language
 type Unit struct {
-	alias string
-	symb  string
+	Alias string
+	Symb  string
 }
 
 // AddUnit for conversion from foreign language
 func (c *Converter) AddUnit(alias, symb string) error {
 	u, err := c.getUnit(alias)
 	if err == nil {
-		return fmt.Errorf("%s unit is exists", u.alias)
+		return fmt.Errorf("%s unit is exists", u.Alias)
 	}
 
 	c.units = append(c.units, &Unit{alias, symb})
@@ -42,7 +42,7 @@ func (c *Converter) GetNum(alias string) (int, error) {
 			return 0, err
 		}
 
-		symbs = append(symbs, u.symb)
+		symbs = append(symbs, u.Symb)
 	}
 
 	sSymb := strings.Join(symbs, "")
@@ -52,7 +52,7 @@ func (c *Converter) GetNum(alias string) (int, error) {
 
 func (c *Converter) getUnit(alias string) (*Unit, error) {
 	for _, u := range c.units {
-		if u.alias == alias {
+		if u.Alias == alias {
 			return u, nil
 		}
 	}

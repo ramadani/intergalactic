@@ -11,15 +11,15 @@ type Credit struct {
 
 // Type has name and amount attribute
 type Type struct {
-	name   string
-	amount float64
+	Name   string
+	Amount float64
 }
 
 // AddType to add a type to credit
 func (c *Credit) AddType(name string, amount float64) error {
 	tp, err := c.GetType(name)
 	if err == nil {
-		return fmt.Errorf("%s credit is exists", tp.name)
+		return fmt.Errorf("%s credit is exists", tp.Name)
 	}
 
 	c.types = append(c.types, &Type{name, amount})
@@ -30,7 +30,7 @@ func (c *Credit) AddType(name string, amount float64) error {
 // GetType to get a type from credit
 func (c *Credit) GetType(name string) (*Type, error) {
 	for _, tp := range c.types {
-		if name == tp.name {
+		if name == tp.Name {
 			return tp, nil
 		}
 	}

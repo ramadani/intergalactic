@@ -50,7 +50,7 @@ func (c *Converter) getUnitSymbol(alias string) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("Not found")
+	return "", fmt.Errorf("Unit not found")
 }
 
 // NewConverter to make instance of converter

@@ -25,7 +25,7 @@ func TestQueryType1(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, q := range queries {
-		res := querier.isQueryType1(strings.Split(q.stmt, " "))
+		res := querier.IsType1(strings.Split(q.stmt, " "))
 		if q.isType != res {
 			t.Errorf("TestQueryType1 failed, expected: '%t', got: '%t'", q.isType, res)
 		}
@@ -52,7 +52,7 @@ func TestQueryType2(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, q := range queries {
-		res := querier.isQueryType2(strings.Split(q.stmt, " "))
+		res := querier.IsType2(strings.Split(q.stmt, " "))
 		if q.isType != res {
 			t.Errorf("TestQueryType2 failed, expected: '%t', got: '%t'", q.isType, res)
 		}
@@ -79,7 +79,7 @@ func TestQueryType3(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, q := range queries {
-		res := querier.isQueryType3(strings.Split(q.stmt, " "))
+		res := querier.IsType3(strings.Split(q.stmt, " "))
 		if q.isType != res {
 			t.Errorf("TestQueryType3 failed, expected: '%t', got: '%t'", q.isType, res)
 		}
@@ -106,7 +106,7 @@ func TestQueryType4(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, q := range queries {
-		res := querier.isQueryType4(strings.Split(q.stmt, " "))
+		res := querier.IsType4(strings.Split(q.stmt, " "))
 		if q.isType != res {
 			t.Errorf("TestQueryType4 failed, expected: '%t', got: '%t'", q.isType, res)
 		}
@@ -130,7 +130,7 @@ func TestGetQueryType1Values(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, tt := range tests {
-		alias, num := querier.getQueryType1Values(strings.Split(tt.stmt, " "))
+		alias, num := querier.GetType1Values(strings.Split(tt.stmt, " "))
 
 		if alias != tt.alias || num != tt.num {
 			t.Errorf("TestGetQueryType1Values failed, expected: '%s %s', got: '%s %s'",
@@ -156,7 +156,7 @@ func TestGetQueryType2Values(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, tt := range tests {
-		aliases, creditType, total := querier.getQueryType2Values(strings.Split(tt.stmt, " "))
+		aliases, creditType, total := querier.GetType2Values(strings.Split(tt.stmt, " "))
 
 		if aliases != tt.aliases || creditType != tt.creditType || total != tt.total {
 			t.Errorf("TestGetQueryType2Values failed, expected: '%s %s %d', got: '%s %s %d'",
@@ -179,7 +179,7 @@ func TestGetQueryType3Values(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, tt := range tests {
-		alias := querier.getQueryType3Values(strings.Split(tt.stmt, " "))
+		alias := querier.GetType3Values(strings.Split(tt.stmt, " "))
 
 		if alias != tt.alias {
 			t.Errorf("TestGetQueryType3Values failed, expected: '%s', got: '%s'", tt.alias, alias)
@@ -203,7 +203,7 @@ func TestGetQueryType4Values(t *testing.T) {
 	querier := NewQuerier()
 
 	for _, tt := range tests {
-		alias, creditType := querier.getQueryType4Values(strings.Split(tt.stmt, " "))
+		alias, creditType := querier.GetType4Values(strings.Split(tt.stmt, " "))
 
 		if alias != tt.alias || creditType != tt.creditType {
 			t.Errorf("TestGetQueryType3Values failed, expected: '%s %s', got: '%s %s'",

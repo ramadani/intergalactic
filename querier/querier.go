@@ -5,15 +5,12 @@ import (
 	"strings"
 )
 
+// Querier for querying from the input
 type Querier struct{}
 
-func (q *Querier) Query(stmt string) {
-
-}
-
-// Query type 2 for query to set alias with symbol
+// IsType1 for check a query to set alias with symbol
 // Example: glob is I, prok is V, etc.
-func (q *Querier) isQueryType1(arr []string) bool {
+func (q *Querier) IsType1(arr []string) bool {
 	isIdx := -1
 
 	for i, s := range arr {
@@ -26,8 +23,8 @@ func (q *Querier) isQueryType1(arr []string) bool {
 	return isIdx == (len(arr)-1)-1
 }
 
-// Get values from query type 1
-func (q *Querier) getQueryType1Values(arr []string) (string, string) {
+// GetType1Values to get values from query type 1
+func (q *Querier) GetType1Values(arr []string) (string, string) {
 	var aliases []string
 	num := arr[len(arr)-1]
 
@@ -41,14 +38,14 @@ func (q *Querier) getQueryType1Values(arr []string) (string, string) {
 	return strings.Join(aliases, " "), num
 }
 
-// Query type 2 for query to set credit value by alias nums
+// IsType2 for check a query to set credit value by alias nums
 // Example: glob glob Silver is 34 Credits, glob prok Gold is 57800 Credits
-func (q *Querier) isQueryType2(arr []string) bool {
+func (q *Querier) IsType2(arr []string) bool {
 	return arr[len(arr)-1] == "Credits"
 }
 
-// Get values from query type 2
-func (q *Querier) getQueryType2Values(arr []string) (string, string, int) {
+// GetType2Values to get values from query type 2
+func (q *Querier) GetType2Values(arr []string) (string, string, int) {
 	var aliases []string
 
 	for _, s := range arr {
@@ -66,9 +63,9 @@ func (q *Querier) getQueryType2Values(arr []string) (string, string, int) {
 	return strings.Join(alias, " "), creditType, total
 }
 
-// Query type 3 for query to ask how munch is alias nums
+// IsType3 for check a query to ask how munch is alias nums
 // Example: how much is pish tegj glob glob ?
-func (q *Querier) isQueryType3(arr []string) bool {
+func (q *Querier) IsType3(arr []string) bool {
 	howIdx := -1
 	muchIdx := -1
 	isIdx := -1
@@ -86,8 +83,8 @@ func (q *Querier) isQueryType3(arr []string) bool {
 	return howIdx == 0 && muchIdx == 1 && isIdx == 2
 }
 
-// Get values from query type 3
-func (q *Querier) getQueryType3Values(arr []string) string {
+// GetType3Values to get values from query type 3
+func (q *Querier) GetType3Values(arr []string) string {
 	var aliases []string
 
 	arr = arr[:len(arr)-1]
@@ -102,9 +99,9 @@ func (q *Querier) getQueryType3Values(arr []string) string {
 	return strings.Join(aliases, " ")
 }
 
-// Query type 4 for query to ask how many credits by alias nums and credit type
+// IsType4 for check a query to ask how many credits by alias nums and credit type
 // Example: how many Credits is glob prok Silver ?
-func (q *Querier) isQueryType4(arr []string) bool {
+func (q *Querier) IsType4(arr []string) bool {
 	howIdx := -1
 	manyIdx := -1
 	creditsIdx := -1
@@ -122,8 +119,8 @@ func (q *Querier) isQueryType4(arr []string) bool {
 	return howIdx == 0 && manyIdx == 1 && creditsIdx == 2
 }
 
-// Get values from query type 4
-func (q *Querier) getQueryType4Values(arr []string) (string, string) {
+// GetType4Values to get values from query type 4
+func (q *Querier) GetType4Values(arr []string) (string, string) {
 	var aliases []string
 
 	arr = arr[:len(arr)-1]
@@ -141,6 +138,7 @@ func (q *Querier) getQueryType4Values(arr []string) (string, string) {
 	return strings.Join(alias, " "), creditType
 }
 
+// NewQuerier to make instance of Querier
 func NewQuerier() *Querier {
 	return &Querier{}
 }

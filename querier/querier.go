@@ -20,6 +20,10 @@ func (q *Querier) IsType1(arr []string) bool {
 		}
 	}
 
+	if isIdx == -1 {
+		return false
+	}
+
 	return isIdx == (len(arr)-1)-1
 }
 

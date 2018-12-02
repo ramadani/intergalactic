@@ -57,7 +57,7 @@ func (c *Converter) getUnit(alias string) (*Unit, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("Unit not found")
+	return nil, fmt.Errorf("Unit not found for %s", alias)
 }
 
 // NewConverter to make instance of converter

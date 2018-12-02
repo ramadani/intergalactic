@@ -50,8 +50,8 @@ func TestQueryFromType2(t *testing.T) {
 		queryTest2{"glob glob Silver is 34 Credits", nil},
 		queryTest2{"glob prok Gold is 57800 Credits", nil},
 		queryTest2{"pish pish Iron is 3910 Credits", nil},
-		queryTest2{"pish great Silver is 5000 Credits", errors.New("Unit not found")},
-		queryTest2{"pish nice good Gold is 7000 Credits", errors.New("Unit not found")},
+		queryTest2{"pish great Silver is 5000 Credits", errors.New("Unit not found for great")},
+		queryTest2{"pish nice good Gold is 7000 Credits", errors.New("Unit not found for nice")},
 		queryTest2{"glob prok Gold is 60000 Credits", errors.New("Gold credit is exists")},
 	}
 
@@ -86,8 +86,8 @@ func TestQueryFromType3(t *testing.T) {
 		queryTest3{"how much is prok glob glob ?", "prok glob glob is 7", nil},
 		queryTest3{"how much is pish tegj glob glob ?", "pish tegj glob glob is 42", nil},
 		queryTest3{"how much is tegj prok glob ?", "tegj prok glob is 56", nil},
-		queryTest3{"how much is great prok glob ?", "", errors.New("Unit not found")},
-		queryTest3{"how much is nice prok glob glob ?", "", errors.New("Unit not found")},
+		queryTest3{"how much is great prok glob ?", "", errors.New("Unit not found for great")},
+		queryTest3{"how much is nice prok glob glob ?", "", errors.New("Unit not found for nice")},
 	}
 
 	converter := converter.NewConverter(roman.NewRoman())

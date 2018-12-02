@@ -75,8 +75,8 @@ func TestAddSomeUnitsAndGetErrorWhenAliasUnitIsNotExists(t *testing.T) {
 	}
 
 	tests := []testUnitNum{
-		testUnitNum{"good great prok", 25, errors.New("Unit not found")},
-		testUnitNum{"pish great nice glob", 42, errors.New("Unit not found")},
+		testUnitNum{"good great prok", 25, errors.New("Unit not found for good")},
+		testUnitNum{"pish great nice glob", 42, errors.New("Unit not found for great")},
 	}
 
 	for _, tt := range tests {
